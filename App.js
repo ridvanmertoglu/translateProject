@@ -1,114 +1,77 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, {Component} from 'react';
+import {StyleSheet, View, Text, TextInput} from 'react-native';
+import axios from 'axios';
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      lengthOfInput: 0,
+      translatedContent: '',
+      lang: '',
+    };
+  }
+  fetchMeaning = (text) => {
+    this.setState({
+      lengthOfInput: text.length,
+    });
+    axios
+      .get(
+        `https://translate.yandex.net/api/v1.5/tr.json/translate?key=${'trnsl.1.1.20200417T174955Z.50e272e7c0b49e72.f029d53c0eb096c164e64deb10a176a4933203f3'}&text=${text}&lang=${'tr'}`,
+      )
+      .then((response) => {
+        console.log('getting data from axios', response.data);
+        this.setState({
+          translatedContent: response.data.text[0],
+          lang: response.data.lang,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.subContainer}>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={this.fetchMeaning}
+            value={this.value}
+            multiline={true}
+            maxLength={1000}
+          />
+          <Text style={styles.lengtOfInputText}>
+            {this.state.lengthOfInput}/1000
+          </Text>
+          <Text>
+            {this.state.lengthOfInput === 0 ? '' : this.state.translatedContent}
+          </Text>
+        </View>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
+  subContainer: {
+    width: '90%',
   },
-  body: {
-    backgroundColor: Colors.white,
+  textInput: {
+    height: '40%',
+    borderColor: '#e8e4c9',
+    borderWidth: 1,
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
+  lengtOfInputText: {
+    fontWeight: '200',
     textAlign: 'right',
+    marginBottom: 40,
   },
 });
-
-export default App;
