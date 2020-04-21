@@ -17,6 +17,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* translateProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* translateProjectTests.m */; };
 		815E8C8997AB94D4646E2A3D /* libPods-translateProject-translateProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E89195EC3EA0DDA4139895E3 /* libPods-translateProject-translateProjectTests.a */; };
+		8C22C440244DED63009C6D3E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C22C43F244DED63009C6D3E /* GoogleService-Info.plist */; };
 		CD51C56C2B4EA40EF60CF02D /* libPods-translateProject-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46B9CB69D8B0CF41F62BE818 /* libPods-translateProject-tvOS.a */; };
 		D14738E56DFECD1D8057A684 /* libPods-translateProject-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9DBD2CBF319090F52641D1E /* libPods-translateProject-tvOSTests.a */; };
 		FA38558209DDE38BC3BB9128 /* libPods-translateProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA0EA05FEFD03FC902DCECB8 /* libPods-translateProject.a */; };
@@ -57,6 +58,7 @@
 		3CE97BD0D71E0CCBE04E318F /* Pods-translateProject-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-translateProject-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-translateProject-tvOSTests/Pods-translateProject-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		46B9CB69D8B0CF41F62BE818 /* libPods-translateProject-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-translateProject-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6655153EB99ABB3BDCF60B3F /* Pods-translateProject-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-translateProject-tvOS.release.xcconfig"; path = "Target Support Files/Pods-translateProject-tvOS/Pods-translateProject-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		8C22C43F244DED63009C6D3E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B5AC736DF599350E382CC9E7 /* Pods-translateProject-translateProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-translateProject-translateProjectTests.release.xcconfig"; path = "Target Support Files/Pods-translateProject-translateProjectTests/Pods-translateProject-translateProjectTests.release.xcconfig"; sourceTree = "<group>"; };
 		B70F91EF7E287B46920DC221 /* Pods-translateProject-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-translateProject-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-translateProject-tvOS/Pods-translateProject-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		D30BB522BA37068A822F7A66 /* Pods-translateProject-translateProjectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-translateProject-translateProjectTests.debug.xcconfig"; path = "Target Support Files/Pods-translateProject-translateProjectTests/Pods-translateProject-translateProjectTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				8C22C43F244DED63009C6D3E /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* translateProject */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* translateProjectTests */,
@@ -194,7 +197,6 @@
 				F86E4C21B321C430F04944B3 /* Pods-translateProject-tvOSTests.debug.xcconfig */,
 				3CE97BD0D71E0CCBE04E318F /* Pods-translateProject-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -340,6 +342,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				8C22C440244DED63009C6D3E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

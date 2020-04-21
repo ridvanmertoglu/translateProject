@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1098543634029-8u1o4gehc3l456ue134lchkcqnjd85jr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1098543634029-8u1o4gehc3l456ue134lchkcqnjd85jr</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC8yEaXOU591jRS7aF3O6dSmepL6J774Ik</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1098543634029</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.translateProject</string>
+	<key>PROJECT_ID</key>
+	<string>translateproject-a027f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>translateproject-a027f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1098543634029:ios:5ac141649db0d9791f5164</string>
+	<key>DATABASE_URL</key>
+	<string>https://translateproject-a027f.firebaseio.com</string>
+</dict>
+</plist>
