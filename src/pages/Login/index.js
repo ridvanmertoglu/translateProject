@@ -8,6 +8,9 @@ import {
   TouchableHighlight,
   Button,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 
 import {styles} from './styles';
@@ -42,44 +45,53 @@ export default class Login extends Component {
 
   render() {
     return (
-      <View style={styles.containerStyle}>
-        <Image style={styles.logo} source={images.loginImage} />
-        <View style={styles.subContainerStyle}>
-          <TextInput
-            placeholder="E-mail"
-            placeholderTextColor="#333"
-            style={styles.inputStyle}
-            value={this.state.email}
-            onChangeText={(givenText) => this.setState({email: givenText})}
-          />
-        </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          style={styles.keyboardAvoidingView}
+          behavior={'padding'}>
+          <View style={styles.container}>
+            <Image style={styles.logo} source={images.loginImage} />
+            <View style={styles.subContainer}>
+              <TextInput
+                placeholder="E-mail"
+                autoCapitalize="none"
+                placeholderTextColor="#333"
+                style={styles.textInput}
+                value={this.state.email}
+                onChangeText={(givenText) => this.setState({email: givenText})}
+              />
+            </View>
 
-        <View style={styles.subContainerStyle}>
-          <TextInput
-            placeholder="Password"
-            placeholderTextColor="#333"
-            secureTextEntry={true}
-            style={styles.inputStyle}
-            value={this.state.password}
-            onChangeText={(givenText) => this.setState({password: givenText})}
-          />
-        </View>
+            <View style={styles.subContainer}>
+              <TextInput
+                placeholder="Password"
+                placeholderTextColor="#333"
+                secureTextEntry={true}
+                style={styles.textInput}
+                value={this.state.password}
+                onChangeText={(givenText) =>
+                  this.setState({password: givenText})
+                }
+              />
+            </View>
 
-        <TouchableHighlight
-          style={styles.buttonContainer}
-          onPress={this.clickLogin}>
-          {this.state.showSpinner ? (
-            <ActivityIndicator size="small" color="white" />
-          ) : (
-            <Text style={styles.loginText}>LOGIN</Text>
-          )}
-        </TouchableHighlight>
-        <Button
-          title="Sign Up"
-          color="#ffffff"
-          onPress={() => this.props.navigation.navigate('Register')}
-        />
-      </View>
+            <TouchableHighlight
+              style={styles.buttonContainer}
+              onPress={this.clickLogin}>
+              {this.state.showSpinner ? (
+                <ActivityIndicator size="small" color="white" />
+              ) : (
+                <Text style={styles.loginText}>LOGIN</Text>
+              )}
+            </TouchableHighlight>
+            <Button
+              title="Sign Up"
+              color="#ffffff"
+              onPress={() => this.props.navigation.navigate('Register')}
+            />
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     );
   }
 }

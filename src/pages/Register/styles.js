@@ -1,17 +1,17 @@
 import {Dimensions} from 'react-native';
 
 export const styles = {
-  containerStyle: {
+  container: {
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  subContainerStyle: {
+  subContainer: {
     width: '80%',
     backgroundColor: '#add8e6',
     borderRadius: 25,
-    height: 50,
+    height: 40,
     marginBottom: 20,
     justifyContent: 'center',
     padding: 20,
@@ -23,7 +23,7 @@ export const styles = {
     width: '80%',
     backgroundColor: 'blue',
     borderRadius: 25,
-    height: 50,
+    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -33,9 +33,12 @@ export const styles = {
   },
 
   logo: {
-    marginBottom: 60,
     width: 200,
     height: 180,
     borderRadius: 25,
+    justifyContent: 'flex-start',
+  },
+  keyboardAvoidingView: {
+    flex: 1,
   },
 };

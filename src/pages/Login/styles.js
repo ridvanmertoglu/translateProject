@@ -1,13 +1,13 @@
 import {Dimensions} from 'react-native';
 
 export const styles = {
-  containerStyle: {
+  container: {
     flex: 1,
     backgroundColor: '#add8e6',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  subContainerStyle: {
+  subContainer: {
     width: '80%',
     backgroundColor: 'white',
     borderRadius: 25,
@@ -16,7 +16,7 @@ export const styles = {
     justifyContent: 'center',
     padding: 20,
   },
-  inputStyle: {
+  textInput: {
     height: 50,
   },
   buttonContainer: {
@@ -33,9 +33,12 @@ export const styles = {
   },
 
   logo: {
-    marginBottom: 60,
+    marginBottom: 30,
     width: 200,
     height: 180,
     borderRadius: 25,
+  },
+  keyboardAvoidingView: {
+    flex: 1,
   },
 };

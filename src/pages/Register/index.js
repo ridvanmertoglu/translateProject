@@ -7,6 +7,9 @@ import {
   Alert,
   TouchableHighlight,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 
 import {styles} from './styles';
@@ -47,56 +50,65 @@ export default class Register extends Component {
 
   render() {
     return (
-      <View style={styles.containerStyle}>
-        <Image style={styles.logo} source={images.signUpImage} />
-        <View style={styles.subContainerStyle}>
-          <TextInput
-            placeholder="E-mail"
-            placeholderTextColor="#333"
-            style={styles.inputStyle}
-            value={this.state.email}
-            onChangeText={(givenText) => this.setState({email: givenText})}
-          />
-        </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          behavior={'padding'}
+          style={styles.keyboardAvoidingView}>
+          <View style={styles.container}>
+            <Image style={styles.logo} source={images.signUpImage} />
+            <View style={styles.subContainer}>
+              <TextInput
+                placeholder="E-mail"
+                autoCapitalize="none"
+                placeholderTextColor="#333"
+                style={styles.inputStyle}
+                value={this.state.email}
+                onChangeText={(givenText) => this.setState({email: givenText})}
+              />
+            </View>
 
-        <View style={styles.subContainerStyle}>
-          <TextInput
-            placeholder="Password"
-            placeholderTextColor="#333"
-            secureTextEntry={true}
-            style={styles.inputStyle}
-            value={this.state.password}
-            onChangeText={(givenText) => this.setState({password: givenText})}
-          />
-        </View>
+            <View style={styles.subContainer}>
+              <TextInput
+                placeholder="Password"
+                placeholderTextColor="#333"
+                secureTextEntry={true}
+                style={styles.inputStyle}
+                value={this.state.password}
+                onChangeText={(givenText) =>
+                  this.setState({password: givenText})
+                }
+              />
+            </View>
 
-        <View style={styles.subContainerStyle}>
-          <TextInput
-            placeholder="Confirm Password"
-            placeholderTextColor="#333"
-            secureTextEntry={true}
-            style={styles.inputStyle}
-            value={this.state.confirmPasword}
-            onChangeText={(givenText) =>
-              this.setState({confirmPasword: givenText})
-            }
-          />
-        </View>
+            <View style={styles.subContainer}>
+              <TextInput
+                placeholder="Confirm Password"
+                placeholderTextColor="#333"
+                secureTextEntry={true}
+                style={styles.inputStyle}
+                value={this.state.confirmPasword}
+                onChangeText={(givenText) =>
+                  this.setState({confirmPasword: givenText})
+                }
+              />
+            </View>
 
-        <TouchableHighlight
-          style={styles.buttonContainer}
-          onPress={() => {
-            this.state.password === this.state.confirmPasword
-              ? this.clickConfirm()
-              : Alert.alert('Passwords do not match.');
-          }}>
-          {this.state.showSpinner ? (
-            <ActivityIndicator size="small" color="white" />
-          ) : (
-            <Text style={styles.loginText}>CONFIRM</Text>
-          )}
-        </TouchableHighlight>
-      </View>
+            <TouchableHighlight
+              style={styles.buttonContainer}
+              onPress={() => {
+                this.state.password === this.state.confirmPasword
+                  ? this.clickConfirm()
+                  : Alert.alert('Passwords do not match.');
+              }}>
+              {this.state.showSpinner ? (
+                <ActivityIndicator size="small" color="white" />
+              ) : (
+                <Text style={styles.loginText}>CONFIRM</Text>
+              )}
+            </TouchableHighlight>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     );
   }
 }
