@@ -3,21 +3,21 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   Modal,
-  Picker,
   Alert,
-  Image,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  TouchableOpacity,
   Keyboard,
 } from 'react-native';
-import axios from 'axios';
 import {styles} from './styles';
 import {images} from '../../utils/images';
 import {languagesCode} from '../../utils/languages';
 import Voice from '@react-native-community/voice';
+import VoiceRecordModal from '../../components/VoiceRecordModal';
+import LanguageModal from '../../components/LanguageModal';
+import SpecificButton from '../../components/SpecificButton';
+import TranslateHelper from '../../api/translate';
+import SpecificTextInput from '../../components/SpecificTextInput';
 
 export default class Translate extends Component {
   static navigationOptions = {
@@ -43,67 +43,123 @@ export default class Translate extends Component {
       clickVoice: false,
       voiceCode: 'tr-TR',
     };
-    Voice.onSpeechResults = this.onSpeechResults.bind(this);
+    Voice.onSpeechResults = this._onSpeechResults;
   }
-  fetchMeaning = (text) => {
-    this.setState({
-      lengthOfInput: text.length,
-    });
-    axios
-      .get(
-        `https://translate.yandex.net/api/v1.5/tr.json/translate?key=${'trnsl.1.1.20200417T174955Z.50e272e7c0b49e72.f029d53c0eb096c164e64deb10a176a4933203f3'}&text=${text}&lang=${
-          this.state.selectedLangPair
-        }`,
-      )
-      .then((response) => {
-        console.log(response.data.text[0]);
-        this.setState({
-          translatedContent: response.data.text[0],
-          selectedLangPair: response.data.lang,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  getLanguages = () => {
-    axios
-      .get(
-        `https://translate.yandex.net/api/v1.5/tr.json/getLangs?ui=en&key=trnsl.1.1.20200417T174955Z.50e272e7c0b49e72.f029d53c0eb096c164e64deb10a176a4933203f3
-        `,
-      )
-      .then((response) => {
-        this.setState({
-          languages: response.data.langs,
-          langPairList: response.data.dirs,
-        });
-        console.log('getting data from axios', response.data.dirs);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   componentDidMount() {
-    this.getLanguages();
+    this._getLanguages();
   }
 
-  onSpeechResults(e) {
+  _fetchMeaning = (givenText) => {
+    const {selectedLangPair} = this.state;
+    this.setState({
+      lengthOfInput: givenText.length,
+    });
+    TranslateHelper.fetch(givenText, selectedLangPair)
+      .then((response) => {
+        const {data} = response;
+        const {lang, text} = data;
+        this.setState({
+          translatedContent: text[0],
+          selectedLangPair: lang,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  _getLanguages = () => {
+    TranslateHelper.getLanguages()
+      .then((response) => {
+        const {data} = response;
+        const {langs, dirs} = data;
+        this.setState({
+          languages: langs,
+          langPairList: dirs,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  _onSpeechResults = (e) => {
     e.value.map((text, index) => {
       this.setState({voiceResult: text});
     });
-    console.log(this.state.voiceResult);
-    //this.setState({voiceResult: e.value});
-  }
+  };
+
   isRecorderSupport() {
+    const {selectedFromLanguageCode} = this.state;
     languagesCode.map((text) => {
-      if (text.substring(0, 2) === this.state.selectedFromLanguageCode) {
+      if (text.substring(0, 2) === selectedFromLanguageCode) {
         this.setState({voiceCode: text});
       }
     });
   }
 
+  _onRecordStop = () => {
+    const {voiceResult} = this.state;
+    this.setState({
+      showVoiceModal: false,
+    });
+
+    Voice.stop();
+    this._fetchMeaning(voiceResult);
+  };
+
+  _onLanguageSelecterDonePress = () => {
+    const {langPairList, selectedLangPair} = this.state;
+    this.isRecorderSupport();
+    if (langPairList.includes(selectedLangPair)) {
+      this.setState({showModal: false});
+    } else {
+      Alert.alert(
+        'This translation is not supported. Please choose a different translation.',
+      );
+    }
+  };
+
+  _selectFromLanguage = (value) => {
+    const {selectedToLanguageCode, languages} = this.state;
+    this.setState({
+      selectedFromLanguage: languages[value],
+      selectedFromLanguageCode: value,
+      selectedLangPair: `${value}-${selectedToLanguageCode}`,
+    });
+  };
+
+  _selectToLanguage = (value) => {
+    const {selectedFromLanguageCode, languages} = this.state;
+    this.setState({
+      selectedToLanguage: languages[value],
+      selectedToLanguageCode: value,
+      selectedLangPair: `${selectedFromLanguageCode}-${value}`,
+    });
+  };
+
+  _startVoiceRecord = () => {
+    const {voiceCode} = this.state;
+    this.setState({
+      showVoiceModal: true,
+      clickVoice: true,
+    });
+    Voice.start(voiceCode);
+  };
+
   render() {
+    const {
+      selectedFromLanguage,
+      selectedFromLanguageCode,
+      selectedToLanguage,
+      selectedToLanguageCode,
+      showModal,
+      languages,
+      voiceResult,
+      lengthOfInput,
+      showVoiceModal,
+      translatedContent,
+    } = this.state;
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
@@ -112,160 +168,57 @@ export default class Translate extends Component {
           <View style={styles.container}>
             <View style={styles.secondContainer}>
               <View style={styles.thirdContainer}>
-                <Button
-                  title={
-                    this.state.selectedFromLanguage +
-                    '-' +
-                    this.state.selectedToLanguage
-                  }
+                <SpecificButton
                   onPress={() => {
                     this.setState({
                       showModal: true,
                     });
                   }}
+                  buttonTitle={`${selectedFromLanguage}-${selectedToLanguage}`}
                 />
-                <Modal transparent={true} visible={this.state.showModal}>
-                  <View style={styles.modalContainer}>
-                    <View style={styles.modalSecondContainer}>
-                      <View style={styles.modalThirdContainer}>
-                        <Button
-                          title="Done"
-                          onPress={() => {
-                            this.isRecorderSupport();
-                            this.state.langPairList.includes(
-                              this.state.selectedLangPair,
-                            )
-                              ? this.setState({showModal: false})
-                              : Alert.alert(
-                                  'This translation is not supported. Please choose a different translation.',
-                                );
-                          }}
-                        />
-                      </View>
-                      <View style={styles.pickerContainer}>
-                        <Picker
-                          style={styles.picker}
-                          selectedValue={
-                            (this.state &&
-                              this.state.selectedFromLanguageCode) ||
-                            'tr'
-                          }
-                          onValueChange={(value) => {
-                            this.setState({
-                              selectedFromLanguage: this.state.languages[value],
-                              selectedFromLanguageCode: value,
-                              selectedLangPair:
-                                value + '-' + this.state.selectedToLanguageCode,
-                            });
-                          }}>
-                          {Object.keys(this.state.languages).map(
-                            (item, index) => (
-                              <Picker.Item
-                                key={index}
-                                label={this.state.languages[item]}
-                                value={item}></Picker.Item>
-                            ),
-                          )}
-                        </Picker>
-                        <Picker
-                          style={styles.picker}
-                          selectedValue={
-                            (this.state && this.state.selectedToLanguageCode) ||
-                            'en'
-                          }
-                          onValueChange={(value) => {
-                            this.setState({
-                              selectedToLanguage: this.state.languages[value],
-                              selectedToLanguageCode: value,
-                              selectedLangPair:
-                                this.state.selectedFromLanguageCode +
-                                '-' +
-                                value,
-                            });
-                          }}>
-                          {Object.keys(this.state.languages).map(
-                            (item, index) => (
-                              <Picker.Item
-                                key={index}
-                                label={this.state.languages[item]}
-                                value={item}></Picker.Item>
-                            ),
-                          )}
-                        </Picker>
-                      </View>
-                    </View>
-                  </View>
+
+                <Modal transparent visible={showModal}>
+                  <LanguageModal
+                    onSelectToLanguage={this._selectToLanguage}
+                    selectedToLanguage={
+                      (this.state && selectedToLanguageCode) || 'en'
+                    }
+                    languageList={languages}
+                    onSelectFromLanguage={this._selectFromLanguage}
+                    selectedFromLanguage={
+                      (this.state && selectedFromLanguageCode) || 'tr'
+                    }
+                    onLanguageSelecterDonePress={
+                      this._onLanguageSelecterDonePress
+                    }
+                  />
                 </Modal>
               </View>
-
-              <View style={styles.textInputContainer}>
-                <TextInput
-                  style={styles.textInput}
-                  placeholder={'Translate'}
-                  onChangeText={(text) => {
-                    this.setState({voiceResult: text});
-                    this.fetchMeaning(text);
-                  }}
-                  value={this.state.voiceResult}
-                  multiline={true}
-                  maxLength={500}
-                />
-              </View>
-
+              <SpecificTextInput
+                placeholder={'Translate'}
+                value={voiceResult}
+                onChangeText={(text) => {
+                  this.setState({voiceResult: text});
+                  this._fetchMeaning(text);
+                }}
+                isMultiline
+                maxLength={500}
+              />
               <View style={styles.textInputBottomContainer}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.setState({
-                      showVoiceModal: true,
-                      clickVoice: true,
-                    });
-                    console.warn(this.state.voiceCode);
-                    Voice.start(this.state.voiceCode);
-                  }}>
-                  <Image
-                    style={styles.voiceRecordIcon}
-                    source={images.voiceRecordIcon}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.lengtOfInputText}>
-                  {this.state.lengthOfInput}/500
-                </Text>
+                <SpecificButton
+                  onPress={this._startVoiceRecord}
+                  voiceRecordSource={images.voiceRecordIcon}
+                />
+                <Text style={styles.lengtOfInputText}>{lengthOfInput}/500</Text>
               </View>
-              <Modal transparent={true} visible={this.state.showVoiceModal}>
-                <View style={styles.modalContainer}>
-                  <View style={styles.modalSecondContainer}>
-                    <Image
-                      style={styles.voiceRecordingImage}
-                      source={images.voiceRecordingIcon}
-                    />
-                    <Text style={styles.recordingText}>Recording..</Text>
-
-                    <TouchableOpacity
-                      style={styles.stopRecordContainer}
-                      onPress={() => {
-                        this.setState({
-                          showVoiceModal: false,
-                        });
-                        Voice.stop();
-                        this.fetchMeaning(this.state.voiceResult);
-                      }}>
-                      <Text style={styles.stopRecordText}>Stop Record</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+              <Modal transparent visible={showVoiceModal}>
+                <VoiceRecordModal onRecordStop={this._onRecordStop} />
               </Modal>
 
-              <View style={styles.textInputContainer}>
-                <TextInput
-                  style={styles.textInput}
-                  multiline={true}
-                  value={
-                    this.state.lengthOfInput === 0
-                      ? ''
-                      : this.state.translatedContent
-                  }
-                />
-              </View>
+              <SpecificTextInput
+                isMultiline
+                value={lengthOfInput === 0 ? '' : translatedContent}
+              />
             </View>
           </View>
         </KeyboardAvoidingView>

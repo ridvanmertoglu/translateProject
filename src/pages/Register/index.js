@@ -13,8 +13,6 @@ import {
 } from 'react-native';
 
 import {styles} from './styles';
-
-//import firebase from '@react-native-firebase/app';
 import auth from '@react-native-firebase/auth';
 import {images} from '../../utils/images';
 
