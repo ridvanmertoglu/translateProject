@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {TouchableOpacity, Image, Text} from 'react-native';
+import {TouchableOpacity, Image, Text, View} from 'react-native';
 import {styles} from './styles';
 
 export default class SpecificButton extends Component {
@@ -9,16 +9,14 @@ export default class SpecificButton extends Component {
   }
   render() {
     return (
-      <TouchableOpacity onPress={this.props.onPress}>
-        <Image
-          style={styles.voiceRecordIcon}
-          source={this.props.voiceRecordSource}
-        />
-
-        <Text style={{fontSize: 20, color: 'blue'}}>
-          {this.props.buttonTitle}
-        </Text>
-      </TouchableOpacity>
+      <View style={this.props.buttonStyle}>
+        <TouchableOpacity onPress={this.props.onPress}>
+          <Image style={styles.buttonIcon} source={this.props.source} />
+          <Text style={this.props.buttonNameStyle}>
+            {this.props.buttonTitle}
+          </Text>
+        </TouchableOpacity>
+      </View>
     );
   }
 }

@@ -1,5 +1,3 @@
-import {Dimensions} from 'react-native';
-
 export const styles = {
   container: {
     flex: 1,
@@ -40,5 +38,15 @@ export const styles = {
   },
   keyboardAvoidingView: {
     flex: 1,
+  },
+  signUpButton: {
+    color: '#ffffff',
+    fontSize: 20,
+    position: 'absolute',
+    top: 5,
+  },
+  signUpButtonContainer: {
+    width: 80,
+    marginLeft: 10,
   },
 };

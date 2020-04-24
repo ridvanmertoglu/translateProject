@@ -22,7 +22,7 @@ import SpecificTextInput from '../../components/SpecificTextInput';
 export default class Translate extends Component {
   static navigationOptions = {
     title: 'Translate',
-    headerLeft: null,
+    headerShown: false,
   };
 
   constructor(props) {
@@ -169,6 +169,7 @@ export default class Translate extends Component {
             <View style={styles.secondContainer}>
               <View style={styles.thirdContainer}>
                 <SpecificButton
+                  buttonNameStyle={styles.chooseLangButton}
                   onPress={() => {
                     this.setState({
                       showModal: true,
@@ -202,14 +203,16 @@ export default class Translate extends Component {
                   this._fetchMeaning(text);
                 }}
                 isMultiline
-                maxLength={500}
+                maxLength={1000}
               />
               <View style={styles.textInputBottomContainer}>
                 <SpecificButton
                   onPress={this._startVoiceRecord}
-                  voiceRecordSource={images.voiceRecordIcon}
+                  source={images.voiceRecordIcon}
                 />
-                <Text style={styles.lengtOfInputText}>{lengthOfInput}/500</Text>
+                <Text style={styles.lengtOfInputText}>
+                  {lengthOfInput}/1000
+                </Text>
               </View>
               <Modal transparent visible={showVoiceModal}>
                 <VoiceRecordModal onRecordStop={this._onRecordStop} />

@@ -17,7 +17,6 @@ export default class VoiceRecordModal extends Component {
             source={images.voiceRecordingIcon}
           />
           <Text style={styles.recordingText}>Recording..</Text>
-
           <TouchableOpacity
             style={styles.stopRecordContainer}
             onPress={this.props.onRecordStop}>

@@ -18,7 +18,7 @@ const AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'Translate',
+    initialRouteName: 'Login',
   },
 );
 

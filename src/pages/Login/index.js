@@ -6,7 +6,6 @@ import {
   TextInput,
   Alert,
   TouchableHighlight,
-  Button,
   ActivityIndicator,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -14,9 +13,9 @@ import {
 } from 'react-native';
 
 import {styles} from './styles';
-
 import auth from '@react-native-firebase/auth';
 import {images} from '../../utils/images';
+import SpecificButton from '../../components/SpecificButton';
 
 export default class Login extends Component {
   static navigationOptions = {
@@ -84,9 +83,10 @@ export default class Login extends Component {
                 <Text style={styles.loginText}>LOGIN</Text>
               )}
             </TouchableHighlight>
-            <Button
-              title="Sign Up"
-              color="#ffffff"
+            <SpecificButton
+              buttonStyle={styles.signUpButtonContainer}
+              buttonTitle={'Sign Up'}
+              buttonNameStyle={styles.signUpButton}
               onPress={() => this.props.navigation.navigate('Register')}
             />
           </View>

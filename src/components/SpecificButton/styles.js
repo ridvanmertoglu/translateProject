@@ -1,6 +1,8 @@
 export const styles = {
-  voiceRecordIcon: {
-    width: 40,
-    height: 40,
+  buttonIcon: {
+    width: 30,
+    height: 30,
+    borderRadius: 100,
+    marginTop: 5,
   },
 };
